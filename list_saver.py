@@ -29,6 +29,7 @@ def main():
             list_of_audios = os.listdir(dir)
             
             if word.replace(" ", "_") + ".wav" in list_of_audios:
+                print(f'{word} already exists, conitnuing to next one.')
                 continue
             
             cmd = input(f"[Enter] to start recording,  [q] to quit => Next Word - `{word}`:")
@@ -83,7 +84,7 @@ def create_randomized_word(json_data_path = 'data_gen_list.json', middle_part_pr
     if torch.rand((1)) >= packsize_prob:
         single_product_name = f'{single_product_name} {pack_size}'
     
-    return single_product_name
+    return single_product_name[1:] if single_product_name.startswith(' ') else single_product_name
    
 if __name__ == '__main__':
     main()
