@@ -11,6 +11,7 @@ def main():
     sr = 16000
     
     dir = input("Who is this User? What is your name? : ")
+    dir = dir.lower()
     if not os.path.isdir(dir):
         os.mkdir(dir)
         print(f"Created directory: {dir}\n")
@@ -26,7 +27,9 @@ def main():
             word = create_randomized_word()
             
             list_of_audios = os.listdir(dir)
-            if word in list_of_audios:
+            
+            if word.replace(" ", "_") + ".wav" in list_of_audios:
+                print(f'{word} already exists, conitnuing to next one.')
                 continue
             
             cmd = input(f"[Enter] to start recording,  [q] to quit => Next Word - `{word}`:")
@@ -53,6 +56,7 @@ def main():
                 wavio.write(filename, myrecording, sr, sampwidth=2)
                 recordCounter += 1
                 print(f"Saved Recording - {recordCounter}, Filename -  {filename}")
+                
             
             elif cmd == "q":
                 print("Recording Suspended!")
@@ -73,14 +77,14 @@ def create_randomized_word(json_data_path = 'data_gen_list.json', middle_part_pr
     pack_size = random.choice(data['pack_size'])
     
     if torch.rand((1)) >= middle_part_prob:
-        single_product_name = f'{first_part} {middle_part} {final_part}'
+        single_product_name = f'{first_part.strip()} {middle_part.strip()} {final_part.strip()}'
     else:
         single_product_name = f'{first_part} {final_part}'
     
     if torch.rand((1)) >= packsize_prob:
         single_product_name = f'{single_product_name} {pack_size}'
     
-    return single_product_name
+    return single_product_name[1:] if single_product_name.startswith(' ') else single_product_name
    
 if __name__ == '__main__':
     main()
