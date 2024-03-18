@@ -1,12 +1,12 @@
 
 import os
 import time
-import wavio
+import wavio, json, random, torch
 import numpy as np
 import sounddevice as sd
 
 
-def main(word_list):
+def main():
     
     sr = 16000
     
@@ -21,7 +21,14 @@ def main(word_list):
     
     cmd = input("Press 'enter' to Continue, Anything else to quit: ")
     if cmd == "":
-        for n, word in enumerate(word_list):
+        
+        while True:
+            word = create_randomized_word()
+            
+            list_of_audios = os.listdir(dir)
+            if word in list_of_audios:
+                continue
+            
             cmd = input(f"[Enter] to start recording,  [q] to quit => Next Word - `{word}`:")
             if cmd == "":
                 recording = []
@@ -47,18 +54,33 @@ def main(word_list):
                 recordCounter += 1
                 print(f"Saved Recording - {recordCounter}, Filename -  {filename}")
             
-
             elif cmd == "q":
                 print("Recording Suspended!")
                 break
             else:
                 print(f"{word} Skipped!")
                 
-    print(f"Total {recordCounter} recordings saved, Bye!")
+    print(f'Total {recordCounter} recordings saved by User "{dir}", Bye!')
 
 
-        
-        
+def create_randomized_word(json_data_path = 'data_gen_list.json', middle_part_prob = 0.75, packsize_prob = 0.5):
+    with open(json_data_path, 'r') as f:
+        data = json.load(f)
+    
+    first_part = random.choice(data['first_part'])
+    middle_part = random.choice(data['middle_part'])
+    final_part = random.choice(data['final_part'])
+    pack_size = random.choice(data['pack_size'])
+    
+    if torch.rand((1)) >= middle_part_prob:
+        single_product_name = f'{first_part} {middle_part} {final_part}'
+    else:
+        single_product_name = f'{first_part} {final_part}'
+    
+    if torch.rand((1)) >= packsize_prob:
+        single_product_name = f'{single_product_name} {pack_size}'
+    
+    return single_product_name
+   
 if __name__ == '__main__':
-    word_list = ["some medicine", "Other medicine"]
-    main(word_list)
+    main()
