@@ -15,10 +15,11 @@ def main():
     if not os.path.isdir(dir):
         os.mkdir(dir)
         print(f"Created directory: {dir}\n")
+        recordCounter = 0
     else:
         print(f"Found existing directory: {dir}\n")
-    
-    recordCounter = 0
+        recordCounter = len(os.listdir(dir))
+        print(f'You have {recordCounter} audios done before. \n')
     
     cmd = input("Press 'enter' to Continue, Anything else to quit: ")
     if cmd == "":
