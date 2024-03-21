@@ -72,13 +72,13 @@ def create_randomized_word(json_data_path = 'data_gen_list.json', middle_part_pr
     with open(json_data_path, 'r') as f:
         data = json.load(f)
     
-    first_part = random.choice(data['first_part'])
-    middle_part = random.choice(data['middle_part'])
-    final_part = random.choice(data['final_part'])
-    pack_size = random.choice(data['pack_size'])
+    first_part = random.choice(data['first_part']).strip()
+    middle_part = random.choice(data['middle_part']).strip()
+    final_part = random.choice(data['final_part']).strip()
+    pack_size = random.choice(data['pack_size']).strip()
     
     if torch.rand((1)) >= middle_part_prob:
-        single_product_name = f'{first_part.strip()} {middle_part.strip()} {final_part.strip()}'
+        single_product_name = f'{first_part} {middle_part} {final_part}'
     else:
         single_product_name = f'{first_part} {final_part}'
     
