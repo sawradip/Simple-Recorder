@@ -15,10 +15,11 @@ def main():
     if not os.path.isdir(dir):
         os.mkdir(dir)
         print(f"Created directory: {dir}\n")
+        recordCounter = 0
     else:
         print(f"Found existing directory: {dir}\n")
-    
-    recordCounter = 0
+        recordCounter = len(os.listdir(dir))
+        print(f'You have {recordCounter} audios done before. \n')
     
     cmd = input("Press 'enter' to Continue, Anything else to quit: ")
     if cmd == "":
@@ -71,13 +72,14 @@ def create_randomized_word(json_data_path = 'data_gen_list.json', middle_part_pr
     with open(json_data_path, 'r') as f:
         data = json.load(f)
     
-    first_part = random.choice(data['first_part'])
-    middle_part = random.choice(data['middle_part'])
-    final_part = random.choice(data['final_part'])
-    pack_size = random.choice(data['pack_size'])
+    first_part = random.choice(data['first_part']).strip()
+    middle_part = random.choice(data['middle_part']).strip()
+    final_part = random.choice(data['final_part']).strip()
+    pack_size = random.choice(data['pack_size']).strip()
     
     if np.random.rand(1) >= middle_part_prob:
         single_product_name = f'{first_part.strip()} {middle_part.strip()} {final_part.strip()}'
+
     else:
         single_product_name = f'{first_part} {final_part}'
     

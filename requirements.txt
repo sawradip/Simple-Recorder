@@ -1,3 +1,4 @@
 sounddevice==0.4.6
 wavio==0.0.8
 numpy #==1.21.6
+torch
