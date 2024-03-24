@@ -8,6 +8,6 @@ while True:
     for folder in folders:
         print(f'"{folder}" has generated {len(os.listdir(folder))} data. \n')
         sum += len(os.listdir(folder))
-    print(f"Total number of files: {sum}")
+    print(f"Total number of files: {sum} \n")
     print('*'*75 + '\n')
     time.sleep(5)
