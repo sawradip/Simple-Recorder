@@ -4,7 +4,10 @@ folders = [item for item in os.listdir('/storage1/Backup_Kabir/PharmaDataCollect
 
 print('*'*75 + '\n')
 while True:
+    sum = 0
     for folder in folders:
         print(f'"{folder}" has generated {len(os.listdir(folder))} data. \n')
+        sum += len(os.listdir(folder))
+    print(f"Total number of files: {sum}")
     print('*'*75 + '\n')
     time.sleep(5)
